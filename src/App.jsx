@@ -1,6 +1,5 @@
-import { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
 
+import { Routes, Route } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
 
 import Home from './pages/Home'
@@ -12,7 +11,7 @@ import Contact from './pages/Contact'
 
 function App() {
   return (
-      <Routes>
+    <Routes>
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
