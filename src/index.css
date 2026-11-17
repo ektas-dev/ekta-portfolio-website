@@ -1,11 +1,25 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @import "tailwindcss";
+
+/* =================================
+   DESIGN SYSTEM
+================================= */
 
 @theme {
   --color-background: #09090f;
   --color-surface: #13131d;
   --color-primary: #8b5cf6;
   --color-accent: #22d3ee;
+
+  --font-sans: "DM Sans", sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
 }
+
+/* =================================
+   GLOBAL RESET
+================================= */
 
 * {
   box-sizing: border-box;
@@ -13,11 +27,92 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 90px;
 }
 
 body {
   margin: 0;
-  background: #09090f;
+  min-width: 320px;
+  background-color: #09090f;
   color: #f8fafc;
-  font-family: Inter, sans-serif;
+  font-family: "DM Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* =================================
+   TYPOGRAPHY
+================================= */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+/* =================================
+   TEXT SELECTION
+================================= */
+
+::selection {
+  background-color: #8b5cf6;
+  color: #ffffff;
+}
+
+/* =================================
+   CUSTOM SCROLLBAR
+================================= */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #383047;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8b5cf6;
+}
+
+/* =================================
+   ACCESSIBILITY
+================================= */
+
+:focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 4px;
+}
+
+/* =================================
+   ANCHOR LINKS
+================================= */
+
+a {
+  text-decoration: none;
+}
+
+/* =================================
+   REDUCED MOTION
+================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
