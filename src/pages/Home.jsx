@@ -219,6 +219,7 @@ function Home() {
               <p className="text-violet-400 text-sm tracking-widest font-semibold">
                 WHAT I'VE BUILT
               </p>
+              
 
               <h2 className="text-3xl sm:text-4xl font-bold mt-3">
                 Featured Projects<span className="text-violet-400">.</span>
