@@ -7,12 +7,12 @@ function Footer() {
     <footer className="border-t border-white/10 bg-[#09090f] px-6 py-8">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 sm:flex-row">
         <p className="text-sm text-gray-400">
-          © {new Date().getFullYear()} Your Name. All rights reserved.
+          © {new Date().getFullYear()} Ekta. All rights reserved.
         </p>
 
         <div className="flex gap-5">
           <a
-            href="https://github.com/YOUR_USERNAME"
+            href="https://github.com/ektas-dev"
             target="_blank"
             rel="noreferrer"
             aria-label="GitHub"
@@ -22,7 +22,7 @@ function Footer() {
           </a>
 
           <a
-            href="https://linkedin.com/in/YOUR_USERNAME"
+            href="https://www.linkedin.com/in/ekta-s-72b880236/"
             target="_blank"
             rel="noreferrer"
             aria-label="LinkedIn"
@@ -32,7 +32,7 @@ function Footer() {
           </a>
 
           <a
-            href="mailto:YOUR_EMAIL"
+            href="mailto:ektasollet12@gmail.com"
             aria-label="Email"
             className="text-gray-400 hover:text-violet-400"
           >
