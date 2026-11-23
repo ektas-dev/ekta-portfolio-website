@@ -3,23 +3,55 @@
 
 @import "tailwindcss";
 
-/* =================================
-   DESIGN SYSTEM
-================================= */
-
 @theme {
-  --color-background: #09090f;
-  --color-surface: #13131d;
-  --color-primary: #8b5cf6;
-  --color-accent: #22d3ee;
-
   --font-sans: "DM Sans", sans-serif;
   --font-display: "Space Grotesk", sans-serif;
 }
 
-/* =================================
-   GLOBAL RESET
-================================= */
+/* DARK THEME - DEFAULT */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-primary: #09090f;
+  --bg-secondary: #11111b;
+  --bg-card: #151521;
+  --bg-elevated: #1c1b2b;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #a1a1b5;
+  --text-muted: #73738a;
+
+  --border-color: rgba(255, 255, 255, 0.09);
+
+  --accent: #8b5cf6;
+  --accent-hover: #a78bfa;
+  --accent-soft: rgba(139, 92, 246, 0.12);
+
+  --shadow-color: rgba(0, 0, 0, 0.25);
+}
+
+/* LIGHT THEME */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-primary: #f8f7fc;
+  --bg-secondary: #f0edf8;
+  --bg-card: #ffffff;
+  --bg-elevated: #eee9f8;
+
+  --text-primary: #191526;
+  --text-secondary: #5e5870;
+  --text-muted: #898399;
+
+  --border-color: rgba(40, 25, 70, 0.12);
+
+  --accent: #7c3aed;
+  --accent-hover: #6d28d9;
+  --accent-soft: rgba(124, 58, 237, 0.10);
+
+  --shadow-color: rgba(50, 30, 80, 0.08);
+}
 
 * {
   box-sizing: border-box;
@@ -27,84 +59,97 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 90px;
+  scroll-padding-top: 100px;
 }
 
 body {
   margin: 0;
   min-width: 320px;
-  background-color: #09090f;
-  color: #f8fafc;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: "DM Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 #root {
   min-height: 100vh;
 }
 
-/* =================================
-   TYPOGRAPHY
-================================= */
-
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4 {
   font-family: "Space Grotesk", sans-serif;
 }
 
-/* =================================
-   TEXT SELECTION
-================================= */
-
 ::selection {
-  background-color: #8b5cf6;
-  color: #ffffff;
+  background: var(--accent);
+  color: white;
 }
 
-/* =================================
-   CUSTOM SCROLLBAR
-================================= */
+a {
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+/* Reusable theme-aware classes */
+.theme-bg {
+  background: var(--bg-primary);
+}
+
+.theme-section {
+  background: var(--bg-secondary);
+}
+
+.theme-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+}
+
+.theme-text {
+  color: var(--text-primary);
+}
+
+.theme-muted {
+  color: var(--text-secondary);
+}
+
+.theme-border {
+  border-color: var(--border-color);
+}
+
+.theme-accent {
+  color: var(--accent);
+}
+
+.theme-accent-bg {
+  background: var(--accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
 
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090f;
+  background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #383047;
+  background: var(--bg-elevated);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #8b5cf6;
+  background: var(--accent);
 }
-
-/* =================================
-   ACCESSIBILITY
-================================= */
-
-:focus-visible {
-  outline: 2px solid #8b5cf6;
-  outline-offset: 4px;
-}
-
-/* =================================
-   ANCHOR LINKS
-================================= */
-
-a {
-  text-decoration: none;
-}
-
-/* =================================
-   REDUCED MOTION
-================================= */
 
 @media (prefers-reduced-motion: reduce) {
   *,
