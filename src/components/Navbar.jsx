@@ -1,6 +1,4 @@
-
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, Sun, Moon, Download } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
@@ -14,39 +12,57 @@ const navItems = [
   { label: "Contact", id: "contact" },
 ];
 
+const NAVBAR_OFFSET = 110;
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
   const { theme, toggleTheme } = useTheme();
 
-  // Track the section based on its actual scroll position
+  // Track the section currently visible below the navbar
   useEffect(() => {
-    let ticking = false;
-
     const updateActiveSection = () => {
-      const activationPoint = window.scrollY + 160;
-
+      const activationPoint = NAVBAR_OFFSET + 20;
       let currentSection = "home";
 
-      navItems.forEach((item) => {
+      for (const item of navItems) {
         const section = document.getElementById(item.id);
 
-        if (section && section.offsetTop <= activationPoint) {
+        if (!section) continue;
+
+        const { top, bottom } = section.getBoundingClientRect();
+
+        if (top <= activationPoint && bottom > activationPoint) {
+          currentSection = item.id;
+          break;
+        }
+
+        if (top <= activationPoint) {
           currentSection = item.id;
         }
-      });
+      }
 
-      setActiveSection((previous) =>
-        previous === currentSection ? previous : currentSection
-      );
+      const atPageBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 5;
 
-      ticking = false;
+      if (atPageBottom) {
+        currentSection = "contact";
+      }
+
+      setActiveSection(currentSection);
     };
+
+    let ticking = false;
 
     const handleScroll = () => {
       if (!ticking) {
-        window.requestAnimationFrame(updateActiveSection);
+        window.requestAnimationFrame(() => {
+          updateActiveSection();
+          ticking = false;
+        });
+
         ticking = true;
       }
     };
@@ -62,33 +78,40 @@ export default function Navbar() {
     };
   }, []);
 
+  // Smooth-scroll to a homepage section
   const handleNavigation = (id) => {
     setMenuOpen(false);
 
-    document.getElementById(id)?.scrollIntoView({
+    const section = document.getElementById(id);
+
+    if (!section) return;
+
+    setActiveSection(id);
+
+    const destination =
+      section.getBoundingClientRect().top + window.scrollY - NAVBAR_OFFSET;
+
+    window.scrollTo({
+      top: Math.max(0, destination),
       behavior: "smooth",
-      block: "start",
     });
   };
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-2xl border theme-border theme-navbar px-5 py-3 shadow-xl backdrop-blur-xl sm:px-7">
-
+      <nav className="theme-navbar theme-border mx-auto flex max-w-7xl items-center justify-between rounded-2xl border px-5 py-3 shadow-xl backdrop-blur-xl sm:px-7">
         {/* LOGO */}
-        <Link
-          to="/"
+        <button
+          type="button"
           onClick={() => handleNavigation("home")}
           className="flex items-center gap-2"
           aria-label="Ekta - Home"
         >
-          <span className="text-2xl font-bold text-violet-500">
-            {"</>"}
-          </span>
-          <span className="font-display text-xl font-bold theme-text">
+          <span className="text-2xl font-bold text-violet-500">{"</>"}</span>
+          <span className="font-display theme-text text-xl font-bold">
             Ekta<span className="text-violet-500">.</span>
           </span>
-        </Link>
+        </button>
 
         {/* DESKTOP NAVIGATION */}
         <div className="hidden items-center gap-5 lg:flex xl:gap-6">
@@ -97,6 +120,7 @@ export default function Navbar() {
               key={item.id}
               type="button"
               onClick={() => handleNavigation(item.id)}
+              aria-current={activeSection === item.id ? "location" : undefined}
               className={`relative py-2 text-sm font-medium transition-colors duration-200 ${
                 activeSection === item.id
                   ? "text-violet-500"
@@ -111,10 +135,7 @@ export default function Navbar() {
                   scaleX: activeSection === item.id ? 1 : 0,
                   opacity: activeSection === item.id ? 1 : 0,
                 }}
-                transition={{
-                  duration: 0.3,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
+                transition={{ duration: 0.25 }}
                 className="absolute -bottom-1 left-0 h-0.5 w-full origin-left rounded-full bg-violet-500"
               />
             </button>
@@ -127,7 +148,7 @@ export default function Navbar() {
             type="button"
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="flex h-10 w-10 items-center justify-center rounded-full border theme-border theme-card theme-text transition hover:-translate-y-1 hover:border-violet-400 hover:text-violet-500"
+            className="theme-card theme-border theme-text flex h-10 w-10 items-center justify-center rounded-full border transition hover:-translate-y-1 hover:border-violet-400 hover:text-violet-500"
           >
             {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
           </button>
@@ -148,7 +169,7 @@ export default function Navbar() {
             type="button"
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="flex h-10 w-10 items-center justify-center rounded-full border theme-border theme-card theme-text transition hover:border-violet-400 hover:text-violet-500"
+            className="theme-card theme-border theme-text flex h-10 w-10 items-center justify-center rounded-full border transition hover:border-violet-400 hover:text-violet-500"
           >
             {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
           </button>
@@ -158,7 +179,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
-            className="flex h-10 w-10 items-center justify-center rounded-lg border theme-border theme-card theme-text transition hover:border-violet-400 hover:text-violet-500"
+            className="theme-card theme-border theme-text flex h-10 w-10 items-center justify-center rounded-lg border transition hover:border-violet-400 hover:text-violet-500"
           >
             {menuOpen ? <X size={21} /> : <Menu size={21} />}
           </button>
@@ -173,7 +194,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.98 }}
             transition={{ duration: 0.2 }}
-            className="mx-auto mt-2 max-w-7xl overflow-hidden rounded-2xl border theme-border theme-navbar p-4 shadow-2xl backdrop-blur-xl lg:hidden"
+            className="theme-navbar theme-border mx-auto mt-2 max-w-7xl overflow-hidden rounded-2xl border p-4 shadow-2xl backdrop-blur-xl lg:hidden"
           >
             <div className="flex flex-col">
               {navItems.map((item) => (
